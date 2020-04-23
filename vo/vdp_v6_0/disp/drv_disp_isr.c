@@ -546,8 +546,8 @@ hi_void disp_isr_execute_by_priorty(disp_isr_chn *disp_chn,
             if (isr_bit_map & ((hi_u64)1 << (hi_u64)n)) {
                 if ((disp_chn->isr_list[int_type].isr_node[n].pf_disp_callback)
                     && (disp_chn->isr_list[int_type].isr_node[n].callback_prior == isr_execute_priorty)) {
-                    hi_info_disp("[isr_process][%s,%d] isr_type = %d, prior = %d\n", __FUNCTION__, __LINE__,
-                                 int_type, isr_execute_priorty);
+                   // hi_info_disp("[isr_process][%s,%d] isr_type = %d, prior = %d\n", __FUNCTION__, __LINE__,
+                    //             int_type, isr_execute_priorty);
                     disp_chn->isr_list[int_type].isr_node[n].pf_disp_callback(disp_chn->isr_list[int_type].isr_node[n].hdst,
                                                                               &disp_chn->cb_info);
                     isr_bit_map = isr_bit_map - ((hi_u64)1 << (hi_u64)n);
@@ -666,14 +666,14 @@ static hi_void disp_isr_debug_process(hi_drv_display disp, hi_drv_disp_callback_
             (hi_u64)disp_chn->isr_debug.isr_delay_time_ms * ISR_SYSTEM_TIME_US;
         if ((period_time > expected_period_time) ||
             ((finish_systime - start_systime) > disp_chn->isr_debug.isr_delay_time_ms * ISR_SYSTEM_TIME_US)) {
-            hi_warn_disp("set-%d-isr,delay:%dms, left -%dms,use-%dms,line-(L-%d,C-%d), count:(%d)\n",
+            /*hi_warn_disp("set-%d-isr,delay:%dms, left -%dms,use-%dms,line-(L-%d,C-%d), count:(%d)\n",
                          disp_chn->isr_debug.isr_delay_time_ms,
                          (period_time - (hi_u64)current_timing_status.circle_time_us),
                          current_timing_status.left_time,
                          (finish_systime - start_systime),
                          disp_chn->cb_info.disp_info.last_vline,
                          disp_chn->cb_info.disp_info.vline,
-                         disp_chn->isr_debug.isr_state_info[int_type].isr_cnt);
+                         disp_chn->isr_debug.isr_state_info[int_type].isr_cnt);*/
             disp_chn->isr_debug.isr_state_info[int_type].time_out++;
         }
 

@@ -510,7 +510,10 @@ void hdmi_connector_enable_hpd(struct hisilicon_hdmi *hdmi, struct hdmi_connecto
         }
         osal_msleep(1); /* 1ms each time */
     } while (hpd_detect_time--);
-
+	HDMI_ERR("status=%d,hpd reshold H=%d,L=%d,wait %d ms\n",
+              connector->status,
+              hpd_cfg->high_reshold, hpd_cfg->low_reshold,
+              hpd_cfg->high_reshold - hpd_detect_time);
     HDMI_INFO("status=%d,hpd reshold H=%d,L=%d,wait %d ms\n",
               connector->status,
               hpd_cfg->high_reshold, hpd_cfg->low_reshold,

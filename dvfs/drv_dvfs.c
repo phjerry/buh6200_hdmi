@@ -244,7 +244,7 @@ hi_s32 dvfs_get_volt_for_new_freq(hi_u32 *volt, hi_u32 new_freq)
     for (i = 0; i < sizeof(g_volt_cal_info) / sizeof(g_volt_cal_info[0]); i++) {
         if (new_freq <= g_volt_cal_info[i].freq) {
             target = i;
-            HI_INFO_PRINT_U32(g_volt_cal_info[target].freq);
+          //  HI_INFO_PRINT_U32(g_volt_cal_info[target].freq);
             break;
         }
     }

@@ -400,7 +400,7 @@ static hi_s32 hdmi_cur_hw_config_decision(struct hisilicon_hdmi *hdmi)
     }
 
     hdmi_prior_work_mode_select(hdmi, vic);
-    HDMI_INFO("tmds_prior=%d,tmds=%d,frl_u=%d,dsc=%d\n", controller->tmds_prior, mode_config.tmds_encode,
+    HDMI_ERR("tmds_prior=%d,tmds=%d,frl_u=%d,dsc=%d\n", controller->tmds_prior, mode_config.tmds_encode,
         mode_config.frl.frl_uncompress, mode_config.dsc.frl_compress);
     hdmitx_get_target_hw_config(controller, &mode_config, &target_hw_config);
 
@@ -441,7 +441,7 @@ static hi_u32 hdmi_get_switch_mode(struct hisilicon_hdmi *hdmi)
         HDMI_ERR("hdmi id = %d, work_mode(switch_mode:%d->%d) is invalid, please check param input\n",
                  hdmi->id, pre_config->work_mode, cur_config->work_mode);
     }
-    HDMI_INFO("switch_mode:%d->%d.\n", pre_config->work_mode, cur_config->work_mode);
+    HDMI_ERR("switch_mode:%d->%d.\n", pre_config->work_mode, cur_config->work_mode);
     return switch_mode;
 }
 
@@ -612,7 +612,7 @@ hi_s32 hdmi_frl_work_en(struct hisilicon_hdmi *hdmi)
         hitxv300_frl_worken_set(frl, true, false);
         hal_ctrl_set_dsc_emp(controller, true);
     } else {
-        HDMI_INFO("Do not enable DSC\n");
+        HDMI_ERR("Do not enable DSC\n");
         hal_ctrl_set_audio_ncts(controller);
         /* worken enable */
         hitxv300_frl_worken_set(frl, true, false);
@@ -628,11 +628,16 @@ static hi_bool hdmi_frl_start(struct hisilicon_hdmi *hdmi)
     struct frl *frl = controller->frl;
     struct frl_config config;
     struct hdmi_hw_config *cur_config = &controller->cur_hw_config;
-
+	//struct hisilicon_hdmi *hdmi = frl->hdmi;
+	struct hdmi_connector *connector = hdmi->connector;
+	
     if (memset_s(&config, sizeof(struct frl_config), 0, sizeof(struct frl_config))) {
         HDMI_ERR("memset_s fail.\n");
         return false;
     }
+
+	hdmi_connector_get_edid(connector, hdmi->ddc);
+	HDMI_ERR("read edid\n");
 
     hitxv300_frl_config_get(frl, &config);
     config.frl_min_rate = cur_config->min_frl_rate;
@@ -640,7 +645,7 @@ static hi_bool hdmi_frl_start(struct hisilicon_hdmi *hdmi)
     config.dsc_frl_min_rate = cur_config->min_dsc_frl_rate;
     config.max_rate_proir = !controller->min_rate_prior;
     hitxv300_frl_config_set(frl, &config);
-
+	HDMI_ERR("frl_max_rate set\n");
     if (hitxv300_frl_start(frl) == TRAIN_EVENT_SUCCESS) {
         cur_config->frl_train_success = true;
         ret = true;
@@ -690,7 +695,7 @@ static hi_s32 hdmi_frl_mode_fast_switch(struct hisilicon_hdmi *hdmi)
         hitxv300_frl_worken_set(frl, true, true);
         hal_ctrl_set_dsc_emp(controller, true);
     } else {
-        HDMI_INFO("Do not enable DSC\n");
+        HDMI_ERR("Do not enable DSC\n");
         /* worken enable */
         hitxv300_frl_worken_set(frl, true, true);
     }
@@ -711,7 +716,7 @@ static hi_void drv_hdmi_compa_strategy_avmute(struct hisilicon_hdmi *hdmi, hi_bo
     if ((enable == HI_TRUE) && (wait_time > 0)) {
         hal_ctrl_set_avmute(controller, HI_TRUE);
         osal_msleep(wait_time);
-        HDMI_INFO("set avmute wait %dms before stop\n");
+        HDMI_ERR("set avmute wait %dms before stop\n");
     }
 
    /* If wait_bef_stop > 0, means avmute(set) will send, and then avmute(clr) must send after start */
@@ -719,7 +724,7 @@ static hi_void drv_hdmi_compa_strategy_avmute(struct hisilicon_hdmi *hdmi, hi_bo
     if ((enable == HI_FALSE) && ((wait_time > 0) || (debug_info->d_avmute.wait_bef_stop > 0))) {
         osal_msleep(wait_time);
         hal_ctrl_set_avmute(controller, HI_FALSE);
-        HDMI_INFO("wait %dms after start,then begin to clr avmute\n");
+        HDMI_ERR("wait %dms after start,then begin to clr avmute\n");
     }
 
     return;
@@ -862,9 +867,9 @@ static hi_s32 hdmi_frl_mode_start(struct hisilicon_hdmi *hdmi)
          *  in the ao backup(oe off callback).
          */
         hdmi_video_config(hdmi);
-
+		HDMI_ERR("ph test1.\n");
         if (!hdmi_frl_start(hdmi)) {
-            HDMI_ERR("frl training fail.\n");
+            HDMI_ERR("frl training fail ph.\n");
             return -EPERM;
         }
     } else { /* FRL fast switch need verify by test guys */
@@ -1175,7 +1180,7 @@ static hi_s32 hdmi_vo_mode_validate(struct hisilicon_hdmi *hdmi, hi_s32 mode,
     struct hdmi_controller *ctrl = hdmi->ctrl;
     struct hdmi_connector *connector = hdmi->connector;
     struct hdmi_timing_data *timing = NULL;
-
+	HDMI_ERR("enter hdmi_vo_mode_validate.\n");
     if (connector->hotplug == HPD_PLUGOUT) {
         HDMI_ERR("hdmi_id = %d, hotplug is 0, please check cable whether is connected, and TV whether is powered on\n",
                  hdmi->id);
@@ -1209,7 +1214,7 @@ static hi_s32 hdmi_vo_prepare(struct hisilicon_hdmi *hdmi, hi_s32 mode,
 {
     struct hdmi_controller *controller = NULL;
     hi_s32 ret = 0;
-
+	//HDMI_ERR("enter hdmi_vo_prepare\n");
     if (hdmi == NULL || display_mode == NULL) {
         HDMI_ERR("Input params is NULL pointer.\n");
         return -EINVAL;
@@ -1256,7 +1261,7 @@ static hi_s32 hdmi_vo_mode_set(struct hisilicon_hdmi *hdmi, hi_s32 mode,
 {
     hi_s32 ret = 0;
     hi_u32 switch_mode = HDMI_SWITCH_MODE_TMDS_2_TMDS;
-
+	//HDMI_ERR("enter hdmi_vo_mode_set.\n");
     if (hdmi == NULL || display_mode == NULL) {
         HDMI_ERR("Input params is NULL pointer.\n");
         return -EINVAL;
@@ -2069,7 +2074,7 @@ static hi_s32 hisilicon_hdmi_probe(struct platform_device *pdev)
     struct hisilicon_hdmi *hdmi = NULL;
     struct device *dev = &pdev->dev;
     hi_s32 ret;
-
+	 HDMI_ERR("enter hisilicon_hdmi_probe.\n");
     hdmi = osal_kmalloc(HI_ID_HDMITX, sizeof(*hdmi), OSAL_GFP_KERNEL);
     if (!hdmi) {
         ret = HI_FAILURE;

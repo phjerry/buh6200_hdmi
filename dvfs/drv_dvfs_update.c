@@ -35,8 +35,8 @@ hi_s32 dvfs_update(struct hisi_dvfs_info *info, hi_u32 cur_freq, hi_u32 new_freq
         new_freq = cur_freq;
     }
 
-    HI_INFO_PRINT_U32(cur_freq);
-    HI_INFO_PRINT_U32(new_freq);
+   // HI_INFO_PRINT_U32(cur_freq);
+   // HI_INFO_PRINT_U32(new_freq);
 
     /* get volt for the new freq */
     ret = dvfs_get_volt_for_new_freq(&new_volt, new_freq);
@@ -45,7 +45,7 @@ hi_s32 dvfs_update(struct hisi_dvfs_info *info, hi_u32 cur_freq, hi_u32 new_freq
         goto exit;
     }
 
-    HI_INFO_PRINT_U32(new_volt);
+    //HI_INFO_PRINT_U32(new_volt);
 
     if (new_freq > cur_freq) {
         ret = regulator_set_voltage(info->cpu_reg, new_volt * 1000, new_volt * 1000); /* 1000:to uv */

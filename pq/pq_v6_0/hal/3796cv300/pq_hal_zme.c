@@ -2774,7 +2774,7 @@ static hi_void pq_hal_check_zme_out_reso(hi_drv_pq_hd_zme_strategy_in *zme_in,
     PQ_CHECK_ZERO_RE_NULL(zme_out->hor_draw_mul);
     PQ_CHECK_ZERO_RE_NULL(zme_out->ver_draw_mul);
 
-    if (zme_out->zme_fmt[HI_DRV_PQ_8KZME].zme_enable == HI_TRUE) {
+   /* if (zme_out->zme_fmt[HI_DRV_PQ_8KZME].zme_enable == HI_TRUE) {
         PQ_CHECK_NUM_LOW_RANGE_RE_NULL(zme_out->zme_fmt[HI_DRV_PQ_8KZME].zme_w_in, PQ_WIDTH_256);
         PQ_CHECK_NUM_LOW_RANGE_RE_NULL(zme_out->zme_fmt[HI_DRV_PQ_8KZME].zme_w_out, PQ_WIDTH_256);
         PQ_CHECK_NUM_LOW_RANGE_RE_NULL(zme_out->zme_fmt[HI_DRV_PQ_8KZME].zme_h_in, PQ_HEIGHT_256);
@@ -2800,7 +2800,7 @@ static hi_void pq_hal_check_zme_out_reso(hi_drv_pq_hd_zme_strategy_in *zme_in,
         PQ_CHECK_NUM_OVER_RANGE_RE_NULL(zme_out->zme_fmt[HI_DRV_PQ_8KSR].zme_w_out, PQ_WIDTH_7680);
         PQ_CHECK_NUM_OVER_RANGE_RE_NULL(zme_out->zme_fmt[HI_DRV_PQ_8KSR].zme_h_in, PQ_HEIGHT_2160);
         PQ_CHECK_NUM_OVER_RANGE_RE_NULL(zme_out->zme_fmt[HI_DRV_PQ_8KSR].zme_h_out, PQ_HEIGHT_4320);
-    }
+    }*/
 }
 
 static hi_void pq_hal_v0_norm_zme_reso_calc(hi_drv_pq_hd_zme_strategy_in *zme_in,

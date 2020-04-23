@@ -217,7 +217,7 @@ hi_s32 temp_ctrl_thread(hi_void *arg)
             return HI_FAILURE;
         }
 
-        HI_INFO_PRINT_S32(temperature);
+       // HI_INFO_PRINT_S32(temperature);
 
         if ((temperature <= g_threshold.enter_low_temp_comp) &&
             (pre_status != STATUS_ENTER_LOW_TEMP_COMP)) {

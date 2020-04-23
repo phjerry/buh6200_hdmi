@@ -165,7 +165,7 @@ static const hi_u32 g_table_7b_8b[FRL_7B8B_TABLE_SIZE] = {
 void frl_log_msg(hi_u32 msg_macro)
 {
     if (msg_macro < ARRAY_SIZE(g_frl_msg)) {
-        HDMI_INFO("%s", g_frl_msg[msg_macro]);
+        HDMI_ERR("%s", g_frl_msg[msg_macro]);
     }
 }
 
@@ -506,20 +506,22 @@ static void frl_hw_init(struct frl *frl)
 static hi_bool frl_edid_check(struct frl *frl)
 {
     if (!frl->config.scdc_present) {
-        HDMI_INFO("scdc present=%d\n", frl->config.scdc_present);
+        HDMI_ERR("scdc present=%d\n", frl->config.scdc_present);
         return false;
     }
     if (!frl->config.sink_version) {
-        HDMI_WARN("scdc version=%d\n", frl->config.sink_version);
+        HDMI_ERR("scdc version=%d\n", frl->config.sink_version);
         return false;
     }
     if (!frl->config.frl_max_rate) {
-        HDMI_WARN("frl_max_rate=%d\n", frl->config.frl_max_rate);
+        HDMI_ERR("frl_max_rate=%d\n", frl->config.frl_max_rate);
         return false;
     }
-    HDMI_INFO("ffe=%d,max_rate=%d,min_rate=%d\n", frl->config.src_ffe_levels,
+    HDMI_ERR("ffe=%d,max_rate=%d,min_rate=%d,sink_version=%d,scdc_present=%d \n", frl->config.src_ffe_levels,
               frl->config.frl_max_rate,
-              frl->config.frl_min_rate);
+              frl->config.frl_min_rate,
+              frl->config.sink_version,
+              frl->config.scdc_present);
     return true;
 }
 
@@ -740,6 +742,7 @@ void frl_config_crg_phy(struct frl *frl)
 
 static hi_void frl_training_lts1_process(struct frl *frl)
 {
+
     if (!frl_edid_check(frl)) {
         frl->stat.event = TRAIN_EVENT_SINK_NO_SCDC;
         frl->stat.frl_state = LTS_L;
@@ -749,6 +752,8 @@ static hi_void frl_training_lts1_process(struct frl *frl)
         frl->stat.frl_state = LTS_2;
         osal_timer_set(&frl->timer, frl->config.ready_timeout);
     }
+
+
 }
 
 static hi_void frl_training_lts2_process(struct frl *frl)
@@ -765,7 +770,7 @@ static hi_void frl_training_lts2_process(struct frl *frl)
         sink_set_frl_rate_ffe_levels(frl);
         frl_set_ln_total(frl);
         osal_timer_set(&frl->timer, frl->config.tflt_margin + TRAIN_TFLT);
-        HDMI_INFO("LTS2 rate=%u,start LTS3 timer\n", frl->scdc.frl_rate);
+        HDMI_ERR("LTS2 rate=%u,start LTS3 timer\n", frl->scdc.frl_rate);
         frl_log_msg(LTS2_PASS);
         frl->stat.frl_state = LTS_3;
     } else if (frl->stat.ready_timeout) { /* timeout in timer */
@@ -814,7 +819,7 @@ static hi_void frl_training_lts4_process(struct frl *frl)
         frl_config_crg_phy(frl);
         frl_config_phy_oe(frl, true);
         sink_set_frl_rate_ffe_levels(frl);
-        HDMI_INFO("LTS4 change rate=%u\n", frl->scdc.frl_rate);
+        HDMI_ERR("LTS4 change rate=%u\n", frl->scdc.frl_rate);
         frl_set_ln_total(frl);
         frl_log_msg(LTS4_LOWER_RATE);
         frl->stat.frl_state = LTS_3;
@@ -864,7 +869,7 @@ static hi_void frl_training_ltsl_process(struct frl *frl, hi_bool *machine_conti
 static hi_bool frl_training_state_machine_step(struct frl *frl)
 {
     hi_bool continue_machine = HI_TRUE;
-
+	HDMI_ERR("frl_training_state_machine_ste,LTS step=%d\n",frl->stat.frl_state);
     switch (frl->stat.frl_state) {
         case LTS_1:
             frl_training_lts1_process(frl);
@@ -944,7 +949,7 @@ static void work_queue_callback(struct work_struct *work)
             schedule_delayed_work(&frl->dl_work,
                                   osal_msecs_to_jiffies(frl->config.ltsp_poll_interval));
         } else {
-            HDMI_INFO("flt_update=%d,re-train LTS3\n", frl->scdc.flt_update);
+            HDMI_ERR("flt_update=%d,re-train LTS3\n", frl->scdc.flt_update);
             osal_timer_set(&frl->timer, frl->config.tflt_margin + TRAIN_TFLT);
             frl->stat.frl_state = LTS_3;
             frl->stat.ltsp_poll = false;
@@ -965,15 +970,15 @@ void hitxv300_frl_worken_set(struct frl *frl, hi_bool enable, hi_bool fast_mode)
 
     if (enable) {
         frl_config_data_source(frl, FRL_VIDEO);
-        HDMI_INFO("true!\n");
+        HDMI_ERR("true!\n");
     } else {
         frl_config_data_source(frl, FRL_GAP_PACKET);
-        HDMI_INFO("false!\n");
+        HDMI_ERR("false!\n");
     }
     if (enable && (!fast_mode)) {
         sink_clear_flt_start(frl);
         frl->stat.ltsp_poll = true;
-        HDMI_INFO("poll update!\n");
+        HDMI_ERR("poll update!\n");
         schedule_delayed_work(&frl->dl_work, msecs_to_jiffies(frl->config.ltsp_poll_interval));
     }
 }
@@ -1024,7 +1029,7 @@ hi_s32 hitxv300_frl_start(struct frl *frl)
         (frl->base_addr == HI_NULL)) {
         return -EINVAL;
     }
-
+    HDMI_ERR("hitxv300_frl_start!\n");
     frl_training_prepare(frl);
     frl_training_state_machine_reset(frl);
 
@@ -1043,7 +1048,7 @@ void hitxv300_frl_stop(struct frl *frl)
     sink_cleanup_frl_rate(frl);
     frl_config_data_source(frl, FRL_TRAINING_PATTERN);
     frl_training_state_machine_stop(frl);
-    HDMI_INFO("stop FRL!\n");
+    HDMI_ERR("stop FRL!\n");
 }
 
 struct frl *hitxv300_frl_init(struct hdmi_controller *parent, void *reg_base)

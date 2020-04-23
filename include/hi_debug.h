@@ -38,7 +38,7 @@ extern "C" {
  * Default level of the output debugging information.
  * CNcomment: 默认的调试信息输出级别.
  */
-#define HI_LOG_LEVEL_DEFAULT HI_LOG_LEVEL_ERROR
+#define HI_LOG_LEVEL_DEFAULT HI_TRACE_LEVEL_ERROR
 
 /*
  * SDK internal Use only.
