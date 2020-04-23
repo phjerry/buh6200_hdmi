@@ -1,0 +1,35 @@
+#!/bin/sh
+##########################################################
+versionfile=comm/vpss_version.h
+definition_type="unsigned char*"
+commit_date=`date +g_u8VPSS_date=\"%Y-%m-%d\"\;`
+#echo $definition_type >$versionfile
+echo $definition_type $commit_date > $versionfile
+
+serverdate=`date +%Y-%m-%d`
+servertime=`date +%H:%M:%S`
+echo "---------------------------"
+echo $serverdate
+echo $servertime
+echo "---------------------------"
+
+##########################################################
+
+find . -name "*.c" -exec sed -i 's/\r//' {} \;
+find . -name "*.c" | xargs sed -i 's/\t/    /g'
+find . -name "*.c" -exec sed -i 's/ *$//g' {} \;
+
+find . -name "*.h" -exec sed -i 's/\r//' {} \;
+find . -name "*.h" | xargs sed -i 's/\t/    /g'
+find . -name "*.h" -exec sed -i 's/ *$//g' {} \;
+##########################################################
+
+find ./ -name "Makefile" |xargs chmod 644
+find ./ -name "*.c" |xargs chmod 644
+find ./ -name "*.h" |xargs chmod 644
+
+
+pwd
+
+
+

@@ -1,0 +1,7 @@
+
+include $(src)/kbuild_flags
+
+#obj-y += drivers/base/dma_buf_test_exporter/
+#obj-y += drivers/gpu/arm/midgard/
+obj-y += drivers/gpu/arm/
+

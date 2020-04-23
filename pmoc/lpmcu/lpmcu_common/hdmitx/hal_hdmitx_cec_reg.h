@@ -1,0 +1,296 @@
+/*
+ * Copyright (c) Hisilicon Technologies Co., Ltd. 2019. All rights reserved.
+ * Description: header of hdmitx cec regiser.
+ * Author: Hisilicon multimedia interface software group
+ * Create: 2019-11-21
+ */
+
+#ifndef __HAL_HDMITX_CEC_REG_H__
+#define __HAL_HDMITX_CEC_REG_H__
+
+#define REG_CEC_IRQ_SRC_PND         0x0000
+#define REG_UNKNOWN_BRCST_SRC       0x00002000
+#define REG_FA_OK_SRC               0x00001000
+#define REG_VALUE_ABNM_SRC          0x00000800
+#define REG_LOGIC_ABNM_SRC          0x00000400
+#define REG_START_ABNM_SRC          0x00000200
+#define REG_AUTO_PING_RDY_SRC       0x00000100
+#define REG_FA_RETRY_OUT_SRC        0x00000080
+#define REG_TX1_FRAME_RETRY_OUT_SRC 0x00000040
+#define REG_TX0_FRAME_RETRY_OUT_SRC 0x00000020
+#define REG_TX1_FRAME_RDY_SRC       0x00000010
+#define REG_TX0_FRAME_RDY_SRC       0x00000008
+#define REG_FA_REQ_SRC              0x00000004
+#define REG_RX_BUFFER_OV_SRC        0x00000002
+#define REG_RX_FRAME_RDY_SRC        0x00000001
+
+#define REG_CEC_IRQ_EN_SET          0x0004
+#define REG_UNKNOWN_BRCST_SRC_MASK  0x00002000
+#define REG_FA_OK_SRC_MASK          0x00001000
+#define REG_VALUE_ABNM_SRC_MASK     0x00000800
+#define REG_LOGIC_ABNM_SRC_MASK     0x00000400
+#define REG_START_ABNM_SRC_MASK     0x00000200
+#define REG_AUTO_PING_RDY_SRC_MASK  0x00000100
+#define REG_FA_RETRY_OUT_SRC_MASK   0x00000080
+#define REG_TX1_FRAME_RETRY_OUT_SRC_MASK 0x00000040
+#define REG_TX0_FRAME_RETRY_OUT_SRC_MASK 0x00000020
+#define REG_TX1_FRAME_RDY_SRC_MASK  0x00000010
+#define REG_TX0_FRAME_RDY_SRC_MASK  0x00000008
+#define REG_FA_REQ_SRC_MASK         0x00000004
+#define REG_RX_BUFFER_OV_SRC_MASK   0x00000002
+#define REG_RX_FRAME_RDY_SRC_MASK   0x00000001
+
+#define REG_CEC_CTRL                0x0008
+#define REG_CFG_LAST_ACK1_EN        0x00000800
+#define REG_CFG_DATA_EOM_ARB_EN     0x00000400
+#define REG_CFG_FA_RCV_EN           0x00000200
+#define REG_CFG_ERROR_NOTIFICATION_EN 0x00000100
+#define REG_RX_FULL_NACK_BRCST      0x00000080
+#define REG_DEGLITCH_BYPASS         0x00000040
+#define REG_RCV_NACK_HDR            0x00000020
+#define REG_BRCST_INIT_RCV_EN       0x00000010
+#define REG_FEATURE_ABORT_EN        0x00000008
+#define REG_SNOOP_EN                0x00000004
+#define REG_CEC_TRAN_EN             0x00000002
+#define REG_CEC_RCV_EN              0x00000001
+
+#define REG_CEC_PULSE               0x000C
+#define REG_RX_FRAME_CLR_ALL        0x00000800
+#define REG_RX_STATE_CLR            0x00000400
+#define REG_TX_STATE_CLR            0x00000200
+#define REG_TX1_BUFFER_FLUSH        0x00000100
+#define REG_TX0_BUFFER_FLUSH        0x00000080
+#define REG_AUTO_PING_EN            0x00000040
+#define REG_RX_FRAME_CLR            0x00000010
+#define REG_TX1_POLL_MESSAGE_EN     0x00000008
+#define REG_TX1_FRAME_EN            0x00000004
+#define REG_TX0_POLL_MESSAGE_EN     0x00000002
+#define REG_TX0_FRAME_EN            0x00000001
+
+#define REG_CEC_RETRY_NUM           0x0010
+#define REG_PING_RETRY_NUM_M        0x00000070
+#define REG_RETRY_NUM_M             0x00000007
+
+#define REG_CEC_CAPTURE_ID_FLAG     0x0014
+#define REG_CAPTURE_ID_FLAG_M       0x0000ffff
+
+#define REG_CEC_SNOOP_ID_FLAG       0x0018
+#define REG_SNOOP_ID_FLAG_M         0x0000ffff
+
+#define REG_CEC_CDC                 0x001C
+#define REG_CEC_CDC_ARB_EN          0x00002000
+#define REG_CEC_CDC_ARB_CNT_M       0x00001f00
+#define REG_CEC_CDC_OPCODE_M        0x000000ff
+
+#define REG_CEC_AUTO_PING_MAP_RSLT  0x0020
+#define REG_AUTO_PING_MAP_M         0x00007fff
+
+#define REG_CEC_AUTO_PING_MAP_EN    0x0024
+#define REG_AUTO_PING_MAP_EN_M      0x00007fff
+
+#define REG_CEC_VERSION             0x0028
+
+#define REG_CEC_COMPENSATE_R        0x002C
+#define REG_CEC_COMPENSATE_M        0x000001ff
+
+#define REG_CEC_FA_DEBUG            0x0030
+#define REG_FA_OPCODE_M             0x0000ff00
+#define REG_FA_INIT_ADDR_M          0x000000f0
+#define REG_FA_DEST_ADDR_M          0x0000000f
+
+#define reg_cec_fa_opcode(s)        (0x0034 + 4 * s)
+#define REG_FA_OPCODE_FLAG_M        0xffffffff
+
+#define REG_CEC_UMONITOR0           0x0054
+#define REG_CTRL_STATE_M            0x00380000
+#define REG_CEC_RX_STATE_M          0x0003C000
+#define REG_CEC_TX_STATE_M          0x00003E00
+#define REG_RETRY_CNT_M             0x000001c0
+#define REG_RX_BUFFER3_ST           0x00000020
+#define REG_RX_BUFFER2_ST           0x00000010
+#define REG_RX_BUFFER1_ST           0x00000008
+#define REG_RX_BUFFER0_ST           0x00000004
+#define REG_TX1_BUFFER_ST           0x00000002
+#define REG_TX0_BUFFER_ST           0x00000001
+
+#define REG_CEC_UMONITOR1           0x0058
+#define REG_TX_DATA_EOM_ARBI_FAIL   0x00100000
+#define REG_TX_START_LOW_LONG       0x00080000
+#define REG_ERROR_NOTIFICATION_DET  0x00040000
+#define REG_TX_EOM_VALUE_ERROR      0x00020000
+#define REG_AP_NO_ACK               0x00010000
+#define REG_FA_NO_ACK               0x00008000
+#define REG_TX1_POLL_NO_ACK         0x00004000
+#define REG_TX0_POLL_NO_ACK         0x00002000
+#define REG_TX1_NO_ACK              0x00001000
+#define REG_TX0_NO_ACK              0x00000800
+#define REG_ARBI_FAIL               0x00000400
+#define REG_LOGIC_ERROR             0x00000200
+#define REG_LOGIC_BIT_SHORT         0x00000100
+#define REG_LOGIC_BIT_LONG          0x00000080
+#define REG_LOGIC1_LOW_SHORT        0x00000040
+#define REG_LOGIC_LOW_MIDDLE        0x00000020
+#define REG_LOGIC0_LOW_LONG         0x00000010
+#define REG_START_BIT_SHORT         0x00000008
+#define REG_START_BIT_LONG          0x00000004
+#define REG_START_LOW_SHORT         0x00000002
+#define REG_START_LOW_LONG          0x00000001
+
+#define REG_CEC_RESERVED             0x0080
+
+#define REG_CEC_TX0_HEAD_ADDR        0x0100
+#define REG_TX0_INIT_ADDR_M          0x000000f0
+#define REG_TX0_DEST_ADDR_M          0x0000000f
+
+#define REG_CEC_TX0_FRAME_LENGTH     0x0104
+#define REG_TX0_FRAME_LENGTH_M       0x0000000f
+
+#define REG_CEC_TX0_FRAME_DATA0      0x0108
+#define REG_TX0_FRAME_DATA_BYTE3_M   0xff000000
+#define REG_TX0_FRAME_DATA_BYTE2_M   0x00ff0000
+#define REG_TX0_FRAME_DATA_BYTE1_M   0x0000ff00
+#define REG_TX0_FRAME_DATA_BYTE0_M   0x000000ff
+
+#define REG_CEC_TX0_FRAME_DATA1      0x010C
+#define REG_TX0_FRAME_DATA_BYTE7_M   0xff000000
+#define REG_TX0_FRAME_DATA_BYTE6_M   0x00ff0000
+#define REG_TX0_FRAME_DATA_BYTE5_M   0x0000ff00
+#define REG_TX0_FRAME_DATA_BYTE4_M   0x000000ff
+
+#define REG_CEC_TX0_FRAME_DATA2      0x0110
+#define REG_TX0_FRAME_DATA_BYTE11_M  0xff000000
+#define REG_TX0_FRAME_DATA_BYTE10_M  0x00ff0000
+#define REG_TX0_FRAME_DATA_BYTE9_M   0x0000ff00
+#define REG_TX0_FRAME_DATA_BYTE8_M   0x000000ff
+
+#define REG_CEC_TX0_FRAME_DATA3      0x0114
+#define REG_TX0_FRAME_DATA_BYTE14_M  0x00ff0000
+#define REG_TX0_FRAME_DATA_BYTE13_M  0x0000ff00
+#define REG_TX0_FRAME_DATA_BYTE12_M  0x000000ff
+
+#define REG_CEC_TX1_HEAD_ADDR        0x0120
+#define REG_TX1_INIT_ADDR_M          0x000000f0
+#define REG_TX1_DEST_ADDR_M          0x0000000f
+
+#define REG_CEC_TX1_FRAME_LENGTH     0x0124
+#define REG_TX1_FRAME_LENGTH_M       0x0000000f
+
+#define REG_CEC_TX1_FRAME_DATA0      0x0128
+#define REG_TX1_FRAME_DATA_BYTE3_M   0xff000000
+#define REG_TX1_FRAME_DATA_BYTE2_M   0x00ff0000
+#define REG_TX1_FRAME_DATA_BYTE1_M   0x0000ff00
+#define REG_TX1_FRAME_DATA_BYTE0_M   0x000000ff
+
+#define REG_CEC_TX1_FRAME_DATA1      0x012C
+#define REG_TX1_FRAME_DATA_BYTE7_M   0xff000000
+#define REG_TX1_FRAME_DATA_BYTE6_M   0x00ff0000
+#define REG_TX1_FRAME_DATA_BYTE5_M   0x0000ff00
+#define REG_TX1_FRAME_DATA_BYTE4_M   0x000000ff
+
+#define REG_CEC_TX1_FRAME_DATA2      0x0130
+#define REG_TX1_FRAME_DATA_BYTE11_M  0xff000000
+#define REG_TX1_FRAME_DATA_BYTE10_M  0x00ff0000
+#define REG_TX1_FRAME_DATA_BYTE9_M   0x0000ff00
+#define REG_TX1_FRAME_DATA_BYTE8_M   0x000000ff
+
+#define REG_CEC_TX1_FRAME_DATA3      0x0134
+#define REG_TX1_FRAME_DATA_BYTE14_M  0x00ff0000
+#define REG_TX1_FRAME_DATA_BYTE13_M  0x0000ff00
+#define REG_TX1_FRAME_DATA_BYTE12_M  0x000000ff
+
+
+#define REG_CEC_RX_FRAME_LENGTH      0x0140
+#define REG_RX_FRAME_LENGTH_M        0x0000000f
+
+#define REG_CEC_RX_HEAD_ADDR         0x0144
+#define REG_RX_INIT_ADDR_M           0x000000f0
+#define REG_RX_DEST_ADDR_M           0x0000000f
+
+#define REG_CEC_RX_FRAME_DATA0       0x0148
+#define REG_RX_FRAME_DATA_BYTE3_M    0xff000000
+#define REG_RX_FRAME_DATA_BYTE2_M    0x00ff0000
+#define REG_RX_FRAME_DATA_BYTE1_M    0x0000ff00
+#define REG_RX_FRAME_DATA_BYTE0_M    0x000000ff
+
+#define REG_CEC_RX_FRAME_DATA1       0x014C
+#define REG_RX_FRAME_DATA_BYTE7_M    0xff000000
+#define REG_RX_FRAME_DATA_BYTE6_M    0x00ff0000
+#define REG_RX_FRAME_DATA_BYTE5_M    0x0000ff00
+#define REG_RX_FRAME_DATA_BYTE4_M    0x000000ff
+
+#define REG_CEC_RX_FRAME_DATA2       0x0150
+#define REG_RX_FRAME_DATA_BYTE11_M   0xff000000
+#define REG_RX_FRAME_DATA_BYTE10_M   0x00ff0000
+#define REG_RX_FRAME_DATA_BYTE9_M    0x0000ff00
+#define REG_RX_FRAME_DATA_BYTE8_M    0x000000ff
+
+#define REG_CEC_RX_FRAME_DATA3       0x0154
+#define REG_RX_FRAME_DATA_BYTE14_M   0x00ff0000
+#define REG_RX_FRAME_DATA_BYTE13_M   0x0000ff00
+#define REG_RX_FRAME_DATA_BYTE12_M   0x000000ff
+
+#define REG_CEC_RX_FRAME_CNT         0x0158
+#define REG_RX_FRAME_CNT_M           0x00000007
+
+#define REG_CEC_LOW_MIN              0x015C
+
+#define REG_CEC_LOW_MAX              0x0160
+
+#define REG_CEC_HIGH_MIN             0x0164
+
+#define REG_CEC_CNT_CLR              0x0168
+#define CFG_CEC_CNT_CLR              0x00000001
+
+#define REG_CEC_RCV_WAIT_CNT         0x016C
+
+#define REG_CEC_ERROR_NOTIFICATION_CNT          0x0170
+
+#define REG_CEC_ERROR_NOTIFICATION_CNT_TX       0x0174
+
+/* crg srst register */
+#define REG_HDMITX_CRG_CLK_SRST                 0x00
+#define REG_HDMITX_CTRL_CEC_SRST_REQ            0x00000008
+#define REG_HDMITX_CTRL_CEC_CKEN                0x00000001
+
+/* general function registers */
+#define REG_SC_HDMITX_CPU_CEC_INFO_0            0x00
+#define REG_CEC_SWITCH_INFO_PA_AB_M             0xff000000
+#define REG_CEC_SWITCH_INFO_PA_CD_M             0x00ff0000
+#define REG_CEC_SWITCH_INFO_LA_M                0x0000f000
+#define REG_CEC_SWITCH_INFO_DEVICE_TYPE_M       0x00000f00
+#define REG_CEC_BACKUP_LA_M                     0x000000f0
+#define REG_CEC_SWITCH_INFO_WAKEUP_ADUIO_SYSTEM 0x00000002
+#define REG_CEC_SWITCH_INFO_ENABLE              0x00000001
+
+#define REG_SC_HDMITX_CPU_CEC_INFO_1            0x04
+#define REG_CEC_SWITCH_INFO_VENDOR_ID2_M        0xff000000
+#define REG_CEC_SWITCH_INFO_VENDOR_ID1_M        0x00ff0000
+#define REG_CEC_SWITCH_INFO_VENDOR_ID0_M        0x0000ff00
+#define REG_CEC_SWITCH_INFO_OSD_NAME13_M        0x000000ff
+
+#define REG_SC_HDMITX_CPU_CEC_INFO_2            0x08
+#define REG_CEC_SWITCH_INFO_OSD_NAME12_M        0xff000000
+#define REG_CEC_SWITCH_INFO_OSD_NAME11_M        0x00ff0000
+#define REG_CEC_SWITCH_INFO_OSD_NAME10_M        0x0000ff00
+#define REG_CEC_SWITCH_INFO_OSD_NAME9_M         0x000000ff
+
+#define REG_SC_HDMITX_CPU_CEC_INFO_3            0x0c
+#define REG_CEC_SWITCH_INFO_OSD_NAME8_M         0xff000000
+#define REG_CEC_SWITCH_INFO_OSD_NAME7_M         0x00ff0000
+#define REG_CEC_SWITCH_INFO_OSD_NAME6_M         0x0000ff00
+#define REG_CEC_SWITCH_INFO_OSD_NAME5_M         0x000000ff
+
+#define REG_SC_HDMITX_CPU_CEC_INFO_4            0x010
+#define REG_CEC_SWITCH_INFO_OSD_NAME4_M         0xff000000
+#define REG_CEC_SWITCH_INFO_OSD_NAME3_M         0x00ff0000
+#define REG_CEC_SWITCH_INFO_OSD_NAME2_M         0x0000ff00
+#define REG_CEC_SWITCH_INFO_OSD_NAME1_M         0x000000ff
+
+#define REG_SC_HDMITX_CPU_CEC_INFO_5            0x014
+#define REG_CEC_SWITCH_INFO_OSD_NAME0_M         0xff000000
+
+#define REG_SC_HDMITX_CPU_CEC_INFO_6            0x018
+#define REG_SC_HDMITX_CPU_CEC_INFO_7            0x01c
+
+#endif
+

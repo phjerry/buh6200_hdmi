@@ -1,0 +1,68 @@
+
+export KBUILD_EXTRA_SYMBOLS += $(COMMON_DIR)/drv/Module.symvers
+
+#include header files
+export EXTRA_CFLAGS += -I$(SDK_DIR)/source/linux/drv/gpu/bifrost/r16p0-01rel0/include \
+                -I$(SDK_DIR)/source/linux/drv/gpu/bifrost/r16p0-01rel0/drivers/gpu/arm/midgard \
+                -I$(DRV_DIR)/include
+
+export ccflags-y += -I$(SDK_DIR)/source/linux/drv/gpu/bifrost/r16p0-01rel0/include \
+                -I$(SDK_DIR)/source/linux/drv/gpu/bifrost/r16p0-01rel0/drivers/gpu/arm/midgard \
+                -I$(DRV_DIR)/include
+
+#Export Variable, use for Kbuild
+export CONFIG_MALI_MIDGARD=$(HI_DRV_BUILDTYPE)
+export CONFIG_DMA_SHARED_BUFFER_TEST_EXPORTER=$(HI_DRV_BUILDTYPE)
+
+export CONFIG_MALI_DEVFREQ=y
+export CONFIG_MALI_PLATFORM_NAME='96cv300_es'
+export CONFIG_HIG1=y
+
+#Define Variable, use for C Code
+MALI_GPU_DEFINE = -DCONFIG_MALI_MIDGARD \
+                  -DCONFIG_MALI_GATOR_SUPPORT \
+                  -DCONFIG_MALI_DEVFREQ \
+                  -DCONFIG_MALI_PLATFORM_NAME='96cv300_es' \
+                  -DMALI_EXPERT \
+                  -DCONFIG_HIG1 \
+                  -DCONFIG_HIG1_SECURE \
+                  -DCONFIG_HIG1_SECURE_FPGA \
+                  -DCONFIG_MALI_CONFIG_OF \
+                  -DHIG1_DDK_TEST=0 \
+                  -DCONFIG_GPU_HISILICON
+
+ifeq ($(CONFIG_ARCH_HI3796CV3X),y)
+MALI_GPU_DEFINE += -DCONFIG_GPU_VOLTAGE_UPDATE \
+                   -DCONFIG_GPU_LICENSE_CORES
+endif
+
+ifeq ($(CFG_HI_TEE_SUPPORT),y)
+MALI_GPU_DEFINE += -DCONFIG_GPU_TEE
+endif
+
+ifeq ($(CFG_HI_GPU_DEBUG),y)
+MALI_GPU_DEFINE += -DCONFIG_HIG1_DEBUG
+endif
+
+ifeq ($(CFG_HI_GPU_HIG1_VERSION), )
+MALI_GPU_DEFINE += -DCONFIG_HIG1_TILE_64X4_V1
+endif
+ifeq ($(CFG_HI_GPU_HIG1_VERSION), TILE_64X2_V0)
+MALI_GPU_DEFINE += -DCONFIG_HIG1_TILE_64X2_V0
+endif
+ifeq ($(CFG_HI_GPU_HIG1_VERSION), TILE_64X4_V0)
+MALI_GPU_DEFINE += -DCONFIG_HIG1_TILE_64X4_V0
+endif
+ifeq ($(CFG_HI_GPU_HIG1_VERSION), TILE_64X4_V1)
+MALI_GPU_DEFINE += -DCONFIG_HIG1_TILE_64X4_V1
+endif
+
+#SDK flags
+export EXTRA_CFLAGS += $(CFG_HI_KMOD_CFLAGS)
+export ccflags-y += $(CFG_HI_KMOD_CFLAGS)
+
+export ccflags-y += $(MALI_GPU_DEFINE)
+export subdir-ccflags-y += $(MALI_GPU_DEFINE)
+export EXTRA_CFLAGS += $(MALI_GPU_DEFINE)
+
+

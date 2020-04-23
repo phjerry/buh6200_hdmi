@@ -1,0 +1,1 @@
+obj-y += rtl88x2BU_WiFi_linux_v5.6.1_30362.20181109_COEX20180928-6a6a/

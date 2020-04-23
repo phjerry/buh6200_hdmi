@@ -1,0 +1,6 @@
+[PROCESSOR]
+name=plain
+[DPTR]
+nr_of=1
+size=16
+pdata_bank_reg_addr=0xA0
