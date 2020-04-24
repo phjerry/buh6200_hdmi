@@ -332,6 +332,23 @@ static void sink_get_flt_status(struct frl *frl)
                  frl->scdc.flt_start, frl->scdc.flt_update);
 }
 
+hi_s32 sink_get_flt_sinkversion(struct frl *frl)
+{
+    hi_s32 ret;
+    hi_u8 value;
+
+    /* read scdc 0x10 */
+    ret = hi_hdmi_scdc_readb(frl->ddc, SCDC_SINK_VERSION, &value);
+    /* scdc fail */
+    if (ret < 0) {
+        frl->stat.event = TRAIN_EVENT_DDC_ERR;
+        HDMI_ERR("flt_start read SCDC_SINK_VERSION fail!\n");
+    }
+    /* frl->scdc.flt_start */
+    frl->config.sink_version = value;
+	return value;
+}
+
 static hi_bool sink_get_flt_ready(struct frl *frl)
 {
     hi_s32 ret;
@@ -791,6 +808,7 @@ static hi_void frl_training_lts3_process(struct frl *frl)
         frl->stat.frl_state = LTS_L;
     }
     sink_get_flt_update(frl);
+	HDMI_ERR("222frl->scdc.flt_update=%d \n", frl->scdc.flt_update);
     if (frl->scdc.flt_update) {
         sink_get_lnx_ltp_req(frl);
         if (frl_is_change_rate(frl)) {

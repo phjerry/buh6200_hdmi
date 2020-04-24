@@ -152,6 +152,7 @@ struct frl *hitxv300_frl_init(struct hdmi_controller *parent, void *reg_base);
 void hitxv300_frl_exit(struct frl *frl);
 hi_s32 hitxv300_frl_scdc_get(struct frl *frl, struct frl_scdc *scdc);
 hi_s32 hitxv300_frl_stat_get(struct frl *frl, struct frl_stat *stat);
+hi_s32 sink_get_flt_sinkversion(struct frl *frl);
 void hitxv300_frl_worken_set(struct frl *frl, hi_bool enable, hi_bool fast_mode);
 hi_s32 hal_frl_debug(struct hisilicon_hdmi *hdmi, enum debug_ext_cmd_list cmd, struct hdmitx_debug_msg msg);
 #endif /* __HAL_HDMI_FRL_H__ */

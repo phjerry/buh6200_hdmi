@@ -629,17 +629,21 @@ static hi_bool hdmi_frl_start(struct hisilicon_hdmi *hdmi)
     struct frl_config config;
     struct hdmi_hw_config *cur_config = &controller->cur_hw_config;
 	//struct hisilicon_hdmi *hdmi = frl->hdmi;
-	struct hdmi_connector *connector = hdmi->connector;
+	//struct hdmi_connector *connector = hdmi->connector;
 	
     if (memset_s(&config, sizeof(struct frl_config), 0, sizeof(struct frl_config))) {
         HDMI_ERR("memset_s fail.\n");
         return false;
     }
 
-	hdmi_connector_get_edid(connector, hdmi->ddc);
-	HDMI_ERR("read edid\n");
-
+	//hdmi_connector_get_edid(connector, hdmi->ddc);
+	
+	
     hitxv300_frl_config_get(frl, &config);
+	
+	config.sink_version = sink_get_flt_sinkversion(frl);
+	
+	HDMI_ERR("read sink_version =%d\n",config.sink_version);
     config.frl_min_rate = cur_config->min_frl_rate;
     config.frl_max_rate = cur_config->max_frl_rate;
     config.dsc_frl_min_rate = cur_config->min_dsc_frl_rate;
